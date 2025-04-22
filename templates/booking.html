@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="booking-container">
+    <h1>Book Tickets for {{ movie.title }}</h1>
+    <div class="booking-form-container">
+        <form method="POST" class="booking-form">
+            <div class="form-group">
+                <label for="showtime">Select Showtime:</label>
+                <select name="showtime" id="showtime" required>
+                    {% for time in movie.showtimes.split(',') %}
+                    <option value="{{ time }}">{{ time }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="seat_number">Select Seat Number:</label>
+                <select name="seat_number" id="seat_number" required>
+                    {% for i in range(1, 11) %}
+                    <option value="A{{ i }}">A{{ i }}</option>
+                    <option value="B{{ i }}">B{{ i }}</option>
+                    <option value="C{{ i }}">C{{ i }}</option>
+                    <option value="D{{ i }}">D{{ i }}</option>
+                    <option value="E{{ i }}">E{{ i }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="user_name">Your Name:</label>
+                <input type="text" id="user_name" name="user_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="user_email">Your Email:</label>
+                <input type="email" id="user_email" name="user_email" required>
+            </div>
+
+            <div class="price-summary">
+                <p>Ticket Price: ${{ "%.2f"|format(movie.price) }}</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="movie-detail">
+    <div class="movie-header">
+        <img src="{{ movie.image_url }}" alt="{{ movie.title }}" class="movie-poster">
+        <div class="movie-info">
+            <h1>{{ movie.title }}</h1>
+            <p class="duration">Duration: {{ movie.duration }}</p>
+            <p class="price">Price: ${{ "%.2f"|format(movie.price) }}</p>
+            <div class="showtimes">
+                <h3>Showtimes:</h3>
+                <div class="time-slots">
+                    {% for time in movie.showtimes.split(',') %}
+                    <span class="time-slot">{{ time }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <a href="{{ url_for('book_ticket', movie_id=movie.id) }}" class="btn btn-primary">Book Tickets</a>
+        </div>
+    </div>
+    <div class="movie-description">
+        <h2>About the Movie</h2>
+        <p>{{ movie.description }}</p>
+    </div>
+</div>
+{% endblock %} 

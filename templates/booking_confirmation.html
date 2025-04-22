@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="confirmation-container">
+    <div class="confirmation-card">
+        <h1>Booking Confirmed!</h1>
+        <div class="confirmation-details">
+            <h2>{{ movie.title }}</h2>
+            <div class="detail-row">
+                <span class="label">Showtime:</span>
+                <span class="value">{{ booking.showtime }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="label">Seat Number:</span>
+                <span class="value">{{ booking.seat_number }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="label">Booking ID:</span>
+                <span class="value">#{{ booking.id }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="label">Price:</span>
+                <span class="value">${{ "%.2f"|format(movie.price) }}</span>
+            </div>
+        </div>
+        <div class="confirmation-message">
+            <p>A confirmation email has been sent to {{ booking.user_email }}</p>
+            <p>Please arrive at least 15 minutes before the showtime.</p>
+        </div>
+        <div class="confirmation-actions">
+            <a href="{{ url_for('home') }}" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

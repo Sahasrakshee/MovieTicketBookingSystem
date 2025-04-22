@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticket Booking</title>
+    <style>
+        /* Advanced CSS with modern styling */
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #3498db;
+            --dark-color: #1a1a1a;
+            --light-color: #f5f5f5;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(to right, #1a1a1a, #2c3e50);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(46, 204, 113, 0.2), rgba(52, 152, 219, 0.2));
+            z-index: 1;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .movies-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .movie-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .movie-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .movie-card:hover .movie-image {
+            transform: scale(1.05);
+        }
+
+        .movie-info {
+            padding: 20px;
+        }
+
+        .movie-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .movie-details {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .movie-details p {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .movie-details p::before {
+            content: '•';
+            color: var(--primary-color);
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        .price {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #2980b9;
+        }
+
+        .booking-form, .confirmation, #movie-details {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: var(--box-shadow);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+        }
+
+        .price-summary {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .price-summary p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .confirmation {
+            text-align: center;
+        }
+
+        .confirmation h2 {
+            color: var(--success-color);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .confirmation-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row .label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .detail-row .value {
+            font-weight: 500;
+        }
+
+        .confirmation-message {
+            margin: 20px 0;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .movies-container {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Animation for buttons */
+        .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(100, 100);
+                opacity: 0;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Movie Ticket Booking System</h1>
+        </div>
+
+        <div class="movies-container" id="movies-list">
+            <!-- Movie 1 -->
+            <div class="movie-card">
+                <img src="darkknight.jpg" alt="The Dark Knight" class="movie-image">
+                <div class="movie-info">
+                    <h2 class="movie-title">The Dark Knight</h2>
+                    <div class="movie-details">
+                        <p>Duration: 2h 32min</p>
+                        <p class="price">Price: Rs 500</p>
+                    </div>
+                    <button class="btn" onclick="showBookingForm('The Dark Knight', 500)">Book Now</button>
+                    <button class="btn btn-secondary" onclick="showMovieDetails('The Dark Knight', 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.', '2h 32min', 500)">View Details</button>
+                </div>
+            </div>
+
+            <!-- Movie 2 -->
+            <div class="movie-card">
+                <img src="inception.jpg" alt="Inception" class="movie-image">
+                <div class="movie-info">
+                    <h2 class="movie-title">Inception</h2>
+                    <div class="movie-details">
+                        <p>Duration: 2h 28min</p>
+                        <p class="price">Price: Rs 500</p>
+                    </div>
+                    <button class="btn" onclick="showBookingForm('Inception', 500)">Book Now</button>
+                    <button class="btn btn-secondary" onclick="showMovieDetails('Inception', 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.', '2h 28min', 500)">View Details</button>
+                </div>
+            </div>
+
+            <!-- Movie 3 -->
+            <div class="movie-card">
+                <img src="interstellar.jpg" alt="Interstellar" class="movie-image">
+                <div class="movie-info">
+                    <h2 class="movie-title">Interstellar</h2>
+                    <div class="movie-details">
+                        <p>Duration: 2h 49min</p>
+                        <p class="price">Price: Rs 500</p>
+                    </div>
+                    <button class="btn" onclick="showBookingForm('Interstellar', 500)">Book Now</button>
+                    <button class="btn btn-secondary" onclick="showMovieDetails('Interstellar', 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.', '2h 49min', 500)">View Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Movie Details -->
+        <div id="movie-details" style="display: none;">
+            <h2 id="detail-title"></h2>
+            <p id="detail-description" style="margin: 15px 0;"></p>
+            <div style="margin-bottom: 15px;">
+                <p>Duration: <span id="detail-duration"></span></p>
+                <p class="price">Price: Rs <span id="detail-price"></span></p>
+            </div>
+            <button class="btn" onclick="showBookingForm(document.getElementById('detail-title').textContent, parseFloat(document.getElementById('detail-price').textContent))">Book Now</button>
+            <button class="btn btn-secondary" onclick="hideMovieDetails()">Back to Movies</button>
+        </div>
+
+        <!-- Booking Form -->
+        <div id="booking-form" class="booking-form" style="display: none;">
+            <h2>Book Tickets for <span id="booking-movie-title"></span></h2>
+            <form onsubmit="submitBooking(event)">
+                <div class="form-group">
+                    <label for="showtime">Select Showtime:</label>
+                    <select id="showtime" required>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                        <option value="19:00">7:00 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="seat">Select Seat:</label>
+                    <select id="seat" required>
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="A3">A3</option>
+                        <option value="A4">A4</option>
+                        <option value="A5">A5</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="B3">B3</option>
+                        <option value="B4">B4</option>
+                        <option value="B5">B5</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="price-summary">
+                    <p>Ticket Price: Rs <span id="booking-price"></span></p>
+                </div>
+
+                <button type="submit" class="btn">Confirm Booking</button>
+                <button type="button" class="btn btn-secondary" onclick="hideBookingForm()">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Booking Confirmation -->
+        <div id="booking-confirmation" class="confirmation" style="display: none;">
+            <h2>Booking Confirmed!</h2>
+            <div class="confirmation-details">
+                <div class="detail-row">
+                    <span class="label">Movie:</span>
+                    <span class="value" id="confirmation-movie"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Showtime:</span>
+                    <span class="value" id="confirmation-showtime"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Seat:</span>
+                    <span class="value" id="confirmation-seat"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Booking ID:</span>
+                    <span class="value" id="confirmation-id"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Price:</span>
+                    <span class="value">Rs <span id="confirmation-price"></span></span>
+                </div>
+            </div>
+            <div class="confirmation-message">
+                <p>A confirmation email has been sent to <span id="confirmation-email"></span></p>
+                <p>Please arrive at least 15 minutes before the showtime.</p>
+            </div>
+            <button class="btn" onclick="resetApp()">Back to Movies</button>
+        </div>
+    </div>
+
+    <script>
+        // Show booking form
+        function showBookingForm(movieTitle, price) {
+            document.getElementById('movies-list').style.display = 'none';
+            document.getElementById('movie-details').style.display = 'none';
+            document.getElementById('booking-form').style.display = 'block';
+            document.getElementById('booking-confirmation').style.display = 'none';
+            
+            document.getElementById('booking-movie-title').textContent = movieTitle;
+            document.getElementById('booking-price').textContent = price.toFixed(2);
+        }
+
+        // Hide booking form
+        function hideBookingForm() {
+            document.getElementById('movies-list').style.display = 'grid';
+            document.getElementById('booking-form').style.display = 'none';
+        }
+
+        // Show movie details
+        function showMovieDetails(title, description, duration, price) {
+            document.getElementById('movies-list').style.display = 'none';
+            document.getElementById('movie-details').style.display = 'block';
+            document.getElementById('booking-form').style.display = 'none';
+            document.getElementById('booking-confirmation').style.display = 'none';
+            
+            document.getElementById('detail-title').textContent = title;
+            document.getElementById('detail-description').textContent = description;
+            document.getElementById('detail-duration').textContent = duration;
+            document.getElementById('detail-price').textContent = price.toFixed(2);
+        }
+
+        // Hide movie details
+        function hideMovieDetails() {
+            document.getElementById('movies-list').style.display = 'grid';
+            document.getElementById('movie-details').style.display = 'none';
+        }
+
+        // Submit booking
+        function submitBooking(event) {
+            event.preventDefault();
+            
+            const movieTitle = document.getElementById('booking-movie-title').textContent;
+            const showtime = document.getElementById('showtime').value;
+            const seat = document.getElementById('seat').value;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const price = parseFloat(document.getElementById('booking-price').textContent);
+            
+            // Generate a random booking ID
+            const bookingId = 'BK' + Math.floor(Math.random() * 10000);
+            
+            // Show confirmation
+            document.getElementById('movies-list').style.display = 'none';
+            document.getElementById('movie-details').style.display = 'none';
+            document.getElementById('booking-form').style.display = 'none';
+            document.getElementById('booking-confirmation').style.display = 'block';
+            
+            document.getElementById('confirmation-movie').textContent = movieTitle;
+            document.getElementById('confirmation-showtime').textContent = showtime;
+            document.getElementById('confirmation-seat').textContent = seat;
+            document.getElementById('confirmation-id').textContent = bookingId;
+            document.getElementById('confirmation-price').textContent = price.toFixed(2);
+            document.getElementById('confirmation-email').textContent = email;
+        }
+
+        // Reset app
+        function resetApp() {
+            document.getElementById('movies-list').style.display = 'grid';
+            document.getElementById('movie-details').style.display = 'none';
+            document.getElementById('booking-form').style.display = 'none';
+            document.getElementById('booking-confirmation').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 
